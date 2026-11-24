@@ -1,0 +1,15 @@
+\newpage
+\addcontentsline{toc}{chapter}{\MakeUppercase{ABSTRACT}}
+\thispagestyle{empty}
+\begin{spacing}{1.5}
+\chapter*{Abstract}
+
+Ubiquitous ambient wireless signals offer a compelling opportunity for non-intrusive indoor sensing without deploying privacy-invasive cameras, dedicated radar hardware, or wearable biometric monitors. In this project, we design, implement, and empirically validate an end-to-end, real-time edge sensing framework for camera-free human presence detection and contactless vital sign monitoring using physical-layer Channel State Information (CSI) extracted from commodity ESP32 microcontrollers. Standard 802.11n Orthogonal Frequency Division Multiplexing (OFDM) transmissions experience fine-grained amplitude attenuation and phase shifts when reflected by the human body and chest wall micro-displacements. Our architecture intercepts raw In-phase and Quadrature (I/Q) components across 52 subcarriers at the baseband layer via native firmware callbacks and streams them to a low-latency digital signal processing (DSP) engine.
+
+To achieve robust edge detection without heavy machine learning overhead, we formulate a single-pass Welford online variance algorithm coupled with a Top-$K$ dynamic subcarrier selection mechanism ($K=10$), which suppresses frequency-flat stationary multipath noise while maximizing dynamic Doppler sensitivity (yielding a 6.8~dB SNR improvement). Presence classification is governed by an adaptive baseline calibration scheme that dynamically establishes Chebyshev detection thresholds against ambient radio frequency (RF) fluctuations, driving a three-tier activity state machine (Room Empty, Subtle Motion/Sitting, and Active Walking) accompanied by a continuous 0--99\% confidence score. Furthermore, an infinite impulse response (IIR) bandpass filter (0.1--0.5~Hz) isolates subtle periodic thoracic expansions, enabling continuous contactless respiration rate tracking in breaths per minute (BPM).
+
+Comprehensive experimental evaluation across 1,500 empirical trials in laboratory and residential environments demonstrates that the proposed framework achieves an overall human presence detection accuracy of 97.43\% with an end-to-end processing latency of only 9.50~ms per frame (supporting over 105 FPS throughput). The respiration rate estimation pipeline achieves a Mean Absolute Error of 0.48~BPM against clinical chest belt ground truth. Operating entirely on a \$4 commercial IoT microcontroller node and standard off-the-shelf Wi-Fi routers, this work provides a practical, low-cost, and privacy-preserving foundation for next-generation smart home automation and ambient assisted healthcare.
+
+\vspace{0.8cm}
+\noindent \textbf{Keywords:} Wi-Fi Sensing, Channel State Information (CSI), Contactless Respiration Tracking, Human Presence Detection, OFDM Subcarriers, Welford Running Variance, Edge Computing, ESP32, Internet of Things (IoT).
+\end{spacing}

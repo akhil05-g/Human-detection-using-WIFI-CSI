@@ -1,0 +1,43 @@
+\chapter{Introduction to the Project}
+\label{chap:intro}
+
+\section{Background and Overview}
+The rapid proliferation of smart buildings, assisted living residences, and ambient healthcare environments has driven unprecedented demand for unobtrusive, continuous human occupancy monitoring and physiological vital sign tracking \cite{jalal2022human, patwari2014breathing}. Traditional indoor sensing modalities predominantly rely on optical camera surveillance, passive infrared (PIR) motion detectors, or wearable physiological sensors. While established, each of these technologies exhibits pronounced operational constraints. Vision-based surveillance introduces grave privacy infringements in private living quarters, demands line-of-sight (LoS), and fails under smoke, darkness, or visual occlusion \cite{lara2013survey}. PIR detectors are inherently binary and incapable of sensing stationary occupants or minute breathing motions \cite{wang2015understanding}. Wearable medical monitors demand continuous patient compliance, physical skin contact, and frequent battery charging, making them impractical for elderly care, neonates, or burn-recovery patients \cite{xiao2013pilot}.
+
+To transcend these limitations, radio frequency (RF) device-free sensing utilizing ambient Wi-Fi infrastructure has emerged as a groundbreaking alternative \cite{halperin2011tool, ma2019wifi}. Because the human body comprises over 65\% water with a high dielectric permittivity ($\epsilon_r \approx 50$ at 2.4~GHz), human physical presence and physiological motions (such as chest displacements during respiration) introduce perceptible multipath reflections, diffraction, and Doppler shifts into propagating wireless signals \cite{wang2017rt}.
+
+\section{Problem Statement}
+While early RF sensing relied on the Received Signal Strength Indicator (RSSI), RSSI is a coarse, packet-level scalar metric that averages all multipath components across the entire RF channel. Consequently, RSSI exhibits severe temporal instability and cannot distinguish subtle human breathing from static environmental background noise \cite{zeng2019farsense}. Modern 802.11n/ac standards employ Orthogonal Frequency Division Multiplexing (OFDM), providing subcarrier-level Channel State Information (CSI) that captures fine-grained channel variations.
+
+However, existing CSI sensing platforms suffer from three major bottlenecks:
+\begin{enumerate}
+    \item \textbf{Hardware and Cost Prohibitions:} Prior systems predominantly depend on obsolete, specialized Network Interface Cards (NICs) such as the Intel 5300 or Atheros AR9580, requiring modified Linux kernels, desktop PCIe slots, and high power consumption (\$180--\$1500 per node) \cite{halperin2011tool, zeng2019farsense}.
+    \item \textbf{High Edge Computational Complexity:} Conventional architectures deploy deep neural networks (CNN-LSTMs, Transformers) requiring GPU acceleration and extensive location-specific offline training, which fail to generalize across diverse room geometries \cite{wang2019csinet}.
+    \item \textbf{Static Multipath Masking and Threshold Drift:} In indoor environments, static line-of-sight and furniture reflections dwarf dynamic body reflections. Without adaptive subcarrier selection and dynamic calibration, minute respiratory chest expansions (1--5~mm) are submerged in channel noise.
+\end{enumerate}
+
+\section{Project Objectives}
+The primary goal of this undergraduate research project is to design, develop, and empirically validate a camera-free, real-time edge sensing system using commodity \$4 ESP32 microcontrollers. The specific objectives are:
+\begin{itemize}
+    \item Develop an edge firmware architecture to capture raw 52-subcarrier In-phase and Quadrature (I/Q) CSI packets from commercial 802.11n frames using native ESP-IDF callbacks.
+    \item Formulate a single-pass Welford online variance algorithm capable of computing temporal signal energy in $O(1)$ memory complexity on resource-constrained devices.
+    \item Devise an adaptive Top-$K$ dynamic subcarrier ranking mechanism ($K=10$) to filter out static, noise-corrupted channels and enhance sensing Signal-to-Noise Ratio (SNR).
+    \item Implement an automated baseline calibration procedure utilizing Chebyshev bounds to adaptively compute dynamic detection thresholds.
+    \item Establish a second-order digital Butterworth IIR bandpass filter (0.1--0.5~Hz) to isolate chest displacements and extract continuous breathing rates in breaths per minute (BPM).
+    \item Construct a real-time web telemetry dashboard operating with less than 10~ms per-frame latency for live visualization.
+\end{itemize}
+
+\section{Scope and Significance of the Study}
+This work democratizes non-invasive RF sensing by demonstrating that high-precision human presence and vital sign monitoring can be achieved entirely on a \$4 commercial IoT microcontroller node and existing consumer Wi-Fi routers. By eliminating the need for expensive specialized NICs, wearable sensors, and privacy-violating optical cameras, this system provides a practical foundation for smart buildings, elderly fall-and-presence monitoring, and ambient hospital vital sign tracking.
+
+\section{Organization of the Report}
+The remainder of this project report is structured as follows:
+\begin{itemize}
+    \item \textbf{Chapter 2 (Motivation):} Discusses the driving rationale, healthcare significance, privacy benefits, and economic advantages of commodity Wi-Fi sensing.
+    \item \textbf{Chapter 3 (Literature Survey):} Reviews state-of-the-art RF sensing, compares RSSI versus CSI, evaluates existing platforms, and identifies research gaps.
+    \item \textbf{Chapter 4 (Design and Methodology):} Formulates the mathematical framework for physical-layer CSI, OFDM subcarrier dynamics, Top-$K$ selection, Welford variance, and respiration filtering.
+    \item \textbf{Chapter 5 (Implementation):} Details the firmware implementation, serial transport layer, Python DSP processing engine, and real-time web dashboard.
+    \item \textbf{Chapter 6 (Hardware/Software Tools Used):} Outlines the hardware nodes, ground truth reference instruments, and software libraries utilized.
+    \item \textbf{Chapter 7 (Results \& Discussion):} Presents extensive empirical evaluations, confusion matrices, respiration rate accuracy benchmarks, ablation studies, and edge latency profiling.
+    \item \textbf{Chapter 8 (Conclusion and Future Scope):} Summarizes the key achievements, discusses societal implications, and identifies avenues for future research.
+\end{itemize}

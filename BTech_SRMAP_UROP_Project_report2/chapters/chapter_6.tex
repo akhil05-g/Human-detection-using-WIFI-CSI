@@ -1,0 +1,27 @@
+\chapter{Hardware/ Software Tools Used}
+\label{chap:tools}
+
+\section{Hardware Infrastructure}
+The experimental hardware apparatus utilizes accessible, commercial off-the-shelf components:
+\begin{enumerate}
+    \item \textbf{Sensing Node (ESP32-WROOM-32):} The core RF receiver is an Espressif ESP32-WROOM-32 development board powered by a 32-bit dual-core Xtensa LX6 microprocessor operating at 240~MHz with 520~KB SRAM and integrated PCB antenna. The node draws less than 240~mA at 5V, costing approximately \$4.
+    \item \textbf{Transmitter Access Point (TP-Link Archer C6):} A standard dual-band gigabit router configured in 802.11n mode on 2.4~GHz Channel 6 (center frequency 2.437~GHz) with a 20~MHz channel bandwidth.
+    \item \textbf{Host Edge Processing Machine:} A standard laptop equipped with an Intel Core i5-1135G7 CPU @ 2.40~GHz, 16~GB DDR4 RAM, running Windows 11 64-bit OS.
+\end{enumerate}
+
+\section{Ground Truth Instrumentation}
+To rigorously validate presence detection and vital sign extraction accuracy, two independent ground truth modalities were deployed:
+\begin{enumerate}
+    \item \textbf{Vernier Go Direct Respiration Belt:} A medical-grade physiological chest belt strapped around the participant's thoracic cage, transmitting high-resolution force sensor readings at 50~Hz via Bluetooth to establish absolute respiration rate ground truth.
+    \item \textbf{Synchronized Video Logging:} A high-definition web camera placed at the room boundary to record synchronized physical occupancy timestamps for presence classification verification.
+\end{enumerate}
+
+\section{Software Tools and Development Stack}
+The software toolchain comprises open-source, industry-standard environments:
+\begin{itemize}
+    \item \textbf{Arduino IDE / ESP-IDF (v3.3.12 Core):} Used for firmware compilation, partition management, and USB flashing of the ESP32 microcontroller.
+    \item \textbf{Python 3.11:} Primary programming language for the host DSP processing engine.
+    \item \textbf{NumPy \& SciPy:} High-performance scientific computing libraries used for vector arithmetic, Butterworth IIR filter design, and Fast Fourier Transform (FFT) spectral processing.
+    \item \textbf{PySerial:} High-speed serial communication library managing asynchronous USB-UART frame reception.
+    \item \textbf{Chart.js \& HTML5 Canvas:} Client-side JavaScript visualization library rendering real-time 60~FPS telemetry waveforms in standard web browsers.
+\end{itemize}

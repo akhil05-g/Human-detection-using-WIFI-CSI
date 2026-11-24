@@ -1,0 +1,22 @@
+\chapter{Conclusion}
+\label{chap:conclusion}
+
+\section{Summary of Research Findings}
+In this project, we designed, implemented, and rigorously evaluated an end-to-end, camera-free sensing system for real-time human presence detection and contactless vital sign monitoring using physical-layer Channel State Information (CSI) extracted from commodity ESP32 microcontrollers. By synthesizing physical-layer In-phase and Quadrature (I/Q) baseband acquisition, Top-$K$ dynamic subcarrier sensitivity selection ($K=10$), single-pass Welford running variance computation, and adaptive Chebyshev thresholding, the system achieves a 97.43\% human activity detection accuracy across 1,500 evaluation intervals. Furthermore, a second-order Butterworth IIR bandpass filter (0.1--0.5~Hz) accurately isolates chest wall micro-displacements, yielding contactless respiration rate tracking with an MAE of 0.48~BPM against clinical chest belt ground truth. Profiling demonstrates an end-to-end processing latency of 9.50~ms per frame, supporting sustained 105~FPS real-time operation on standard edge platforms.
+
+\section{Societal Relevance and Practical Impact}
+The proposed system addresses key societal challenges in healthcare and smart infrastructure:
+\begin{itemize}
+    \item \textbf{Privacy-Preserving Healthcare:} Enables continuous vital sign tracking in private quarters (bedrooms, bathrooms, intensive care units) without video cameras or intrusive wearable monitors.
+    \item \textbf{Elderly Care and Assisted Living:} Detects sudden absences or unusual stationary periods without requiring active user compliance or charging batteries.
+    \item \textbf{Energy-Efficient Smart Buildings:} Facilitates accurate HVAC and lighting automation by reliably identifying stationary, seated occupants where conventional PIR sensors fail.
+    \item \textbf{Economic Scalability:} Operates entirely on commercial \$4 microcontrollers and existing home Wi-Fi routers, making pervasive sensing economically viable for developing communities.
+\end{itemize}
+
+\section{Scope of Further Research}
+While the experimental outcomes validate the efficacy of our design, several promising directions remain for future investigation:
+\begin{enumerate}
+    \item \textbf{Multi-Occupant Blind Source Separation:} In environments with multiple simultaneous occupants, their reflected Doppler signals linearly superimpose on the CSI matrix. Developing multi-antenna Independent Component Analysis (ICA) or spatial beamforming on ESP32 antenna arrays can isolate individual breathing rates.
+    \item \textbf{Mechanical Interference Discrimination:} Rotating fans and oscillating curtains generate periodic Doppler signatures. Incorporating spectral entropy analysis into the DSP pipeline will enable automatic discrimination between human movement and mechanical artifacts.
+    \item \textbf{Next-Generation Wi-Fi (802.11ax/be) Scaling:} Expanding the firmware to support Wi-Fi 6/7 channels with 256 or 1024 subcarriers at 5~GHz and 6~GHz will substantially enhance spatial resolution and multi-target tracking fidelity.
+\end{enumerate}
